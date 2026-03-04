@@ -1,0 +1,34 @@
+name: Codex - auto PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      instruction:
+        description: "What should Codex do?"
+        required: true
+        default: "Update the Streamlit app (app.py) and requirements.txt. Ensure it runs on Streamlit Cloud."
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  codex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run Codex
+        uses: openai/codex-action@v1
+        with:
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          prompt: ${{ github.event.inputs.instruction }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: "Codex changes"
+          body: "Automated changes made by Codex via GitHub Actions."
+          branch: "codex/auto-changes"
+          base: "main"
