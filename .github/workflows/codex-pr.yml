@@ -21,9 +21,9 @@ jobs:
 
       - name: Run Codex
         uses: openai/codex-action@v1
-        with:
-          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-          prompt: ${{ github.event.inputs.instruction }}
+       with:
+  openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+  prompt: ${{ github.event.inputs.instruction }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
